@@ -1,1 +1,3 @@
 # LeetCode
+
+Daily Leetcode challenges
