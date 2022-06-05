@@ -1,0 +1,68 @@
+https://leetcode.com/problems/n-queens-ii/
+
+
+The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
+
+Given an integer n, return the number of distinct solutions to the n-queens puzzle.
+
+ 
+
+Example 1:
+
+
+Input: n = 4
+Output: 2
+Explanation: There are two distinct solutions to the 4-queens puzzle as shown.
+Example 2:
+
+Input: n = 1
+Output: 1
+ 
+
+Constraints:
+
+1 <= n <= 9
+
+
+Approach
+--------
+
+~ same as n-queens problems but have used vector<bool> instead of map in the given function and passed negDiag,posDiag and column to backtack function.
+Thus it is a similar approach of n-queens.
+
+
+class Solution {
+public:
+    
+    int count=0;
+    void backtrack(int row,int n,vector<string> &board,vector<bool> &column,vector<bool> &negDiag,vector<bool> &posDiag)
+    {
+        if(row==n)
+        {
+            count++;
+            return;
+        }
+        for(int col=0;col<n;col++)
+        {
+            if(!column[col] && !negDiag[row+col] && !posDiag[n-row+col])
+            {
+                board[row][col]='Q';
+                column[col]=negDiag[row+col]=posDiag[n-row+col]=true;
+                backtrack(row+1,n,board,column,negDiag,posDiag);
+                column[col]=negDiag[row+col]=posDiag[n-row+col]=false;
+                board[row][col]='.';
+            }
+        }
+        
+    }
+    
+    int totalNQueens(int n) {
+        vector<string> board(n,string(n,'.'));
+        vector<bool> column(n);
+        vector<bool> negDiag(2*n-1);
+        vector<bool> posDiag(2*n-1);
+        backtrack(0,n,board,column,negDiag,posDiag);
+        return count;
+        
+    }
+};
