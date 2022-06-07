@@ -1,0 +1,34 @@
+https://leetcode.com/problems/maximum-subarray/
+
+LeetCode provided solution:
+
+int maxP(int max,int sum){
+    if(max>sum) return max;
+    return sum;
+}
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int currSum=0;
+        int maxP=nums[0];
+        for(int i=0;i<nums.size();i++)
+        {
+            if(currSum<0)
+                currSum=0;
+            currSum+=nums[i];
+            maxP=max(maxP,currSum);
+        }
+        return maxP;
+        
+    }
+};
+
+sliding window
+
+
+kadane's algo(DP and greedy)
+
+
+divide and conquer approach
+
