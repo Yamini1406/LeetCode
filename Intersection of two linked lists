@@ -1,0 +1,201 @@
+https://leetcode.com/problems/intersection-of-two-linked-lists/
+Given the heads of two singly linked-lists headA and headB, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return null.
+
+For example, the following two linked lists begin to intersect at node c1:
+
+
+The test cases are generated such that there are no cycles anywhere in the entire linked structure.
+
+Note that the linked lists must retain their original structure after the function returns.
+
+Custom Judge:
+
+The inputs to the judge are given as follows (your program is not given these inputs):
+
+intersectVal - The value of the node where the intersection occurs. This is 0 if there is no intersected node.
+listA - The first linked list.
+listB - The second linked list.
+skipA - The number of nodes to skip ahead in listA (starting from the head) to get to the intersected node.
+skipB - The number of nodes to skip ahead in listB (starting from the head) to get to the intersected node.
+The judge will then create the linked structure based on these inputs and pass the two heads, headA and headB to your program. If you correctly return the intersected node, then your solution will be accepted.
+
+ 
+
+Example 1:
+
+
+Input: intersectVal = 8, listA = [4,1,8,4,5], listB = [5,6,1,8,4,5], skipA = 2, skipB = 3
+Output: Intersected at '8'
+Explanation: The intersected node's value is 8 (note that this must not be 0 if the two lists intersect).
+From the head of A, it reads as [4,1,8,4,5]. From the head of B, it reads as [5,6,1,8,4,5]. There are 2 nodes before the intersected node in A; There are 3 nodes before the intersected node in B.
+Example 2:
+
+
+Input: intersectVal = 2, listA = [1,9,1,2,4], listB = [3,2,4], skipA = 3, skipB = 1
+Output: Intersected at '2'
+Explanation: The intersected node's value is 2 (note that this must not be 0 if the two lists intersect).
+From the head of A, it reads as [1,9,1,2,4]. From the head of B, it reads as [3,2,4]. There are 3 nodes before the intersected node in A; There are 1 node before the intersected node in B.
+Example 3:
+
+
+Input: intersectVal = 0, listA = [2,6,4], listB = [1,5], skipA = 3, skipB = 2
+Output: No intersection
+Explanation: From the head of A, it reads as [2,6,4]. From the head of B, it reads as [1,5]. Since the two lists do not intersect, intersectVal must be 0, while skipA and skipB can be arbitrary values.
+Explanation: The two lists do not intersect, so return null.
+ 
+
+Constraints:
+
+The number of nodes of listA is in the m.
+The number of nodes of listB is in the n.
+1 <= m, n <= 3 * 104
+1 <= Node.val <= 105
+0 <= skipA < m
+0 <= skipB < n
+intersectVal is 0 if listA and listB do not intersect.
+intersectVal == listA[skipA] == listB[skipB] if listA and listB intersect.
+ 
+
+Follow up: Could you write a solution that runs in O(m + n) time and use only O(1) memory?
+
+Brute Force approach
+--------------------
+
+Time Complexity : O(m*n)
+Space Complexity :O(1)
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *tempA = headA;
+        while(tempA!=NULL)
+        {
+            ListNode* tempB = headB;
+            while(tempB!=NULL)
+            {
+                if(tempA==tempB) return tempB;
+                tempB=tempB->next;
+            }tempA=tempA->next;
+        }
+        return NULL;
+    }
+};
+
+Hash-map approach:
+-----------------
+Time Complexity : O(m+n)
+Space Complexity :O(m)
+
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        map<ListNode*,int> mp;
+        while(headA!=NULL)
+        {
+            mp[headA]++;
+            headA=headA->next;
+        }
+        while(headB!=NULL)
+        {
+            if(mp[headB]>0) return headB;
+            headB=headB->next;
+        }
+        return NULL;
+    }
+};
+
+Two-pointer approach
+--------------------
+
+
+Time Complexity : O(m+n)
+Space Complexity :O(1)
+
+
+class Solution {
+public:
+    
+    int length(ListNode *headA)
+    {
+        int count=0;
+        ListNode *temp=headA;
+        while(temp!=NULL)
+        {
+            count++;
+            temp=temp->next;
+        }
+        return count;
+    }
+    
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int len1=length(headA);
+        int len2=length(headB);
+        
+        if(len1>len2)
+        {
+            int diff=len1-len2;
+            while(diff--)
+            {
+                headA=headA->next;
+            }
+        }
+        
+        if(len1<len2)
+        {
+            int diff=len2-len1;
+            while(diff--)
+            {
+                headB=headB->next;
+            }
+        }
+        while(headA!=NULL && headB!=NULL)
+        {
+            if(headA==headB) return headA;
+            headA=headA->next;
+            headB=headB->next;
+        }
+        return NULL;
+        
+    }
+};
+
+OPTIMIZED CODE FOR TWO-POINTER APPROACH:
+There can be only 3 cases 
+1) Linked list 1 has a length smaller than linked list 2
+2)Linked list 2 has length equal to linked list 2 (this also includes the case when there is no intersection between them)
+3)Linked list 1 has length greater than linked list 2
+
+In case 1, consider length of linked list 1 to be 10 for example , and length of linked list 2 to be 16, now if both start travelling from the same start, the pointer to linked list 1 will reach the end quicker where pointer to linked list 2 will still have 6 steps to cover to reach the end, so until then, we make first pointer to travel 6 more steps by starting from linked list 2 again, so that linked list 1 can also cover total distance 16.
+Now if we make pointer of linked list 2 point to start of linked list 1,it will be at the start node of linked list 1.
+Meanwhile, pointer 1 is standing on the node of linked list 2 which is same as start node of linked list 1.
+Voila, both our nodes are at same places now, just traverse by one step each now to reach the intersection ( this always works because we always make the fast pointer to definitely travel the distance that was the difference between both lengths)
+2)Case 2 is simple :both pointers are bound to meet / become NULL at same time
+3) Case 3 is same as case 1,just the lists reversed
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *ptr1=headA;
+        ListNode *ptr2=headB;
+        //1)loop gets out when intersection point is found
+        //2)else if ptr1 not equal to ptr till the end of the node
+        while(ptr1!=ptr2) //when they do not intersect, they both become NULL at the same time. so ptr1 equals ptr2 thus doesn't go inside loop.
+        {
+            //will only switch once from one list to another, if no intersection ptr will reach till end of the list and store NULL.
+            ptr1 = ptr1==NULL?headB:ptr1->next;
+            //ptr2 = ptr2==NULL?ptr2->headA:ptr2->next;
+            ptr2 = ptr2==NULL?headA:ptr2->next;
+        }
+        return ptr1;
+    }
+};
