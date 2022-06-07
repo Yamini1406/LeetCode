@@ -1,0 +1,57 @@
+https://leetcode.com/problems/contains-duplicate/
+
+Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,1]
+Output: true
+Example 2:
+
+Input: nums = [1,2,3,4]
+Output: false
+Example 3:
+
+Input: nums = [1,1,1,3,3,4,3,2,4,2]
+Output: true
+ 
+
+Constraints:
+
+1 <= nums.length <= 105
+-109 <= nums[i] <= 109
+
+
+sorting and checking nums[i]=nums[i+1] is faster. Why?
+
+unordered_map is nothing but hashing, the worst time for getting element from the hash is O(n) and the best is O(1), the overall time complexity is O(n^2) 
+during hashing while sorting takes O(N log N)
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+//         below method applicable only for +ve numbers .fails for(1,5,-2,-4,0)
+//         vector<int> freq(10,0);
+//         for(int i=0;i<nums.size();i++)
+//         {
+//             freq[nums[i]]++;
+//         }
+//         for(int i=0;i<nums.size();i++)
+//         {
+//             if(freq[nums[i]]>1) return true;
+//         }
+//         return false;
+        //just using map(BST) takes a lot more time than unordered map(hash table)[use unordered map when u need no ordering and need to access a single element]
+        unordered_map<int,bool> freq;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(freq[nums[i]]) return true;
+            freq[nums[i]]=true;
+        }
+        return false;
+            
+        
+    }
+};
