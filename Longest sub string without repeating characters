@@ -1,0 +1,114 @@
+https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
+Given a string s, find the length of the longest substring without repeating characters.
+
+ 
+
+Example 1:
+
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+Example 2:
+
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+Example 3:
+
+Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+ 
+
+Constraints:
+
+0 <= s.length <= 5 * 104
+s consists of English letters, digits, symbols and spaces.
+
+
+SOLUTION  :  C++
+--------
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map<char,int> mp;
+        int st=0,end=0,n=s.length(),res=0;
+        while(end<n)
+        {
+            mp[s[end]]++;
+            while(mp[s[end]]!=1){
+                mp[s[st]]--;
+                st++;
+            }
+            res=max(res,end-st+1);
+            end++;
+        }
+        return res;
+    }
+};
+
+Time complexity(worst case): O(N) ->O(2N) to be precise as we use 2 pointers and traverse twice.
+space complexity:O(N)
+
+SOLUTION   :   JAVA
+--------
+
+using set and 2 pointers (or) using hashmap
+
+using set: we do sliding window technique i.e. if a character is already in the set, move the left pointer by +1 and check if the substring is unique or not
+Example: abca. Here abc is checked, then a is repeated again. Thus we move by +1 making bca and checking it again.
+
+Its time complexity is :O(2N)
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        Map<Character,Integer> mp=new HashMap<Character,Integer>();
+        int n=s.length();
+        int res=0,st=0,end=0;
+        while(end<n){
+            char c=s.charAt(end); //gets a character at given index
+        //     mp[s[end]]++;
+        //     while(mp[s[end]]!=1){
+        //         mp[s[st]]--;
+        //         st++;
+        //     }
+        //     res=max(res,end-st+1);
+        //     end++;
+        // }
+        // return res;
+            if(mp.containsKey(c)){
+                st =Math.max(mp.get(c)+1,st); //here we care about the range. If the repeating character is not within the range, we don't need to consider it. If it is within the range, then left ptr=right ptr+1.
+            }
+            mp.put(c,end);
+            res=Math.max(res,end-st+1);
+            end++;
+        }
+        return res;
+    }
+}
+
+
+similarly to reduce time complexity, we use frequency array which has:  Time complexity: O(N)
+                                                                        space complexity:O(1): remains constant. to be specific O(256)
+                                                                        
+C++ faster and efficient
+-------------------------
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<int> freq(256,-1);
+        int left=0,right=0,res=0,n=s.length();
+        while(right<n){
+            if(freq[s[right]!=-1])//if  the element is already present{
+                left=max(left,freq[s[right]]+1); //check if the element is within sliding window sustring range
+            freq[s[right]]=right;
+            res=max(res,right-left+1);
+            right++;
+            }
+    return res;
+    }
+};
