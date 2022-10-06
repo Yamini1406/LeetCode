@@ -12,3 +12,4 @@ Daily Leetcode challenges
 8) Two sum-II
 9) Running sum of 1D array
 10) Longest substring without repeating characters
+11) Minimum time to make rope colorful
