@@ -90,3 +90,8 @@ class Solution {
     
     */
 }
+
+TIME COMPLEXITY
+---------------
+
+is O(N^2) is all methods but space complexity is O(H) = O(1) which is the depth of the tree
