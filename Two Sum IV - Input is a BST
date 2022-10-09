@@ -1,0 +1,92 @@
+Given the root of a Binary Search Tree and a target number k, return true if there exist two elements in the BST such that their sum is equal to the given target.
+
+ 
+
+Example 1:
+Input: root = [5,3,6,2,4,null,7], k = 9   [5-4,3-6,7-2]
+Output: true
+
+
+Example 2:
+Input: root = [5,3,6,2,4,null,7], k = 28
+Output: false
+
+
+SOLUTION
+--------
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    
+    //Set<Integer> st = new HashSet<Integer>();
+    public boolean findTarget(TreeNode root, int k) {
+        
+//         wrong-------->
+//         if(root == null) return false;
+//         k-=root.val;
+//         if(root.left!=null && k == root.left.val) return true;
+//         else if(root.right!=null && k == root.right.val) return true;
+//         else return false;
+        
+//      using hashset------------>       
+//         if(root == null) return false;  
+        
+//         if(st.contains(k-root.val)) return true;
+//         //else we have to add the existing value to the set
+//         st.add(root.val);
+//         return findTarget(root.left,k) || findTarget(root.right,k);  
+        
+//      using basic recursion logic: 100% faster---------->
+        
+        return run(root,root,k);
+    }
+    public boolean run(TreeNode root, TreeNode cur, int val){
+        if(cur == null) return false;
+        if(check(root,val-cur.val,cur)) return true;
+        
+        return run(root,cur.left,val) || run(root,cur.right,val);
+    }
+    
+    public boolean check(TreeNode root, int val, TreeNode cur){
+        if(root == null) return false;
+        
+        if(root.val < val) return check(root.right,val,cur); //don't forget return stmt
+        else if(root.val > val) return check(root.left,val,cur);
+        else if(root.val == val) {
+            // return true; -> if the same node is encountered return false ex: [1] 2
+            return cur!=root;
+        }
+        
+        return false;
+        
+    }
+    //another method do inorder traversal so we get elements in asc order and then 2 pointers if sum>val move right ptr else left 
+    /* PSUEDO CODE
+    if(root == null) return;
+    inorder(root.left);
+    array.add(root);
+    inorder(root.right);
+    
+    while(left<right){
+    if(ar[l]+ar[r]==val) return true;
+    if greater return r--;
+    else if l++;
+    }
+    return false;
+    
+    */
+}
