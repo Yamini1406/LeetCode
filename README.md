@@ -17,3 +17,5 @@ Daily Leetcode challenges
 13) Add One Row to Tree
 14) Time Based Key-Value Store
 15) Two Sum IV - Input is a BST
+16) Daily Temperatures
+
