@@ -1,0 +1,97 @@
+https://leetcode.com/problems/daily-temperatures/description/
+
+739. Daily Temperatures
+Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
+
+Example 1:
+
+Input: temperatures = [73,74,75,71,69,72,76,73]
+Output: [1,1,4,2,1,1,0,0]
+Example 2:
+
+Input: temperatures = [30,40,50,60]
+Output: [1,1,1,0]
+Example 3:
+
+Input: temperatures = [30,60,90]
+Output: [1,1,0]
+ 
+
+Constraints:
+
+1 <= temperatures.length <= 105
+30 <= temperatures[i] <= 100
+
+SOLUTION
+--------
+
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        // There are two ways to approach this question.
+        // 1. stack with extra space o(N)
+        // 2. With just Iterator: skipping elements
+        Stack<Integer> st = new Stack<>();
+        int ans[] = new int[temperatures.length];
+        //start from last -> coz I wanna know the next hot temperature after that day
+        for(int i=temperatures.length - 1;i>=0;i--){
+            if(st.empty()) {
+                //case 1: last ele -> always zero
+                //push the index, not the no.
+                st.push(i);
+                ans[i]=0;
+            }
+            else{
+                while(!st.empty() && temperatures[i]>=temperatures[st.peek()]){
+                    st.pop();
+                }
+                //after while, we either got the ans or no ans
+                if(st.empty()) {
+                    st.push(i);
+                    ans[i]=0;
+                }
+                else {
+                    ans[i] = st.peek()-i;
+                    st.push(i);
+                }
+            }
+            
+        }
+        return ans;
+
+        //OR--------------------------------------->
+        int ans[] = new int[temperatures.length];
+        int hottest = Integer.MIN_VALUE;
+        for(int i=temperatures.length-1;i>=0;i--) {
+            //if the loop is infinite....i.e; there is no greater ele in right 6+0 = 6...loop
+            if(temperatures[i] >= hottest) {
+                //just store it and don't do anything'
+                hottest = temperatures[i];
+            }
+            else {
+                //there is a soln in right
+                int it = i+1;
+                while(temperatures[it] <= temperatures[i]) {
+                    it+=ans[it];
+                }
+                ans[i] = it-i;
+            }
+        }
+        return ans;
+
+        //Finally Brute Force approach...simply use two for loops //47/48 -TLE
+        int ans[] = new int[temperatures.length];
+        //int flag = 0;
+        for(int i=0;i<temperatures.length;i++){
+            for(int j=i+1;j<temperatures.length;j++){
+                if(temperatures[j]>temperatures[i]){
+                    ans[i] = j-i;
+                    //flag = 1;
+                    break;
+                }
+            }
+            //if(flag==0) temperatures[i]=0;
+            //flag=0;
+        }
+        return ans;
+    }
+}
