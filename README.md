@@ -19,4 +19,5 @@ Daily Leetcode challenges
 15) Two Sum IV - Input is a BST
 16) Daily Temperatures
 17) Keys and Rooms
+18) Maximum Bags With Full Capacity of Rocks
 
