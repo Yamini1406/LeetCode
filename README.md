@@ -26,3 +26,5 @@ Daily Leetcode challenges
 22) Best Time to Buy and Sell Stock IV
 23) Best Time to Buy and Sell Stock with Cooldown
 24) Validate Binary Search Tree
+25) Excel Sheet Column Title
+26) Excel Sheet Column Number
