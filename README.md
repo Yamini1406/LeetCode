@@ -28,3 +28,4 @@ Daily Leetcode challenges
 24) Validate Binary Search Tree
 25) Excel Sheet Column Title
 26) Excel Sheet Column Number
+27) Valid Parentheses
