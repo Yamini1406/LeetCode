@@ -29,4 +29,5 @@ Daily Leetcode challenges
 25) Excel Sheet Column Title
 26) Excel Sheet Column Number
 27) Valid Parentheses
-28) Word Pattern
+28) Word Pattern : Reference for Bijective function
+    <img src = "https://ds055uzetaobb.cloudfront.net/image_optimizer/53ce20545953ad1830438c9ac3882fc3d1a5f0f1.png">
