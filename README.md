@@ -29,3 +29,4 @@ Daily Leetcode challenges
 25) Excel Sheet Column Title
 26) Excel Sheet Column Number
 27) Valid Parentheses
+28) Word Pattern
