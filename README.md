@@ -31,3 +31,4 @@ Daily Leetcode challenges
 27) Valid Parentheses
 28) Word Pattern : Reference for Bijective function
     <img src = "https://ds055uzetaobb.cloudfront.net/image_optimizer/53ce20545953ad1830438c9ac3882fc3d1a5f0f1.png">
+29) Detect Capital
